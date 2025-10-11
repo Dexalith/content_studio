@@ -8,6 +8,7 @@ class UserCreate(BaseModel):
     email: EmailStr
     password: str = Field(..., min_length=8)
 
+
 # Для входа
 class UserLogin(BaseModel):
     email: EmailStr
@@ -19,8 +20,8 @@ class UserOut(BaseModel):
     username: str
     email: EmailStr
     is_active: bool
-    daily_generation_limit: int
-    monthly_generation_limit: int
+    daily_limit_gen: int
+    monthly_limit_gen: int
     created_at: datetime
 
     class Config:

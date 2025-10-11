@@ -1,14 +1,12 @@
 from sqlalchemy import Boolean, DateTime, Integer, String
 from sqlalchemy import func
-from sqlalchemy.orm import DeclarativeBase, mapped_column, Mapped, relationship
+from sqlalchemy.orm import mapped_column, Mapped, relationship
 
 from datetime import datetime
 from uuid import UUID, uuid4
 
-# from app.projects.models import Project
-
-class Base(DeclarativeBase):
-    pass
+from app.doc_proj.models import Document, Project
+from app.db.db_client import Base
 
 
 class User(Base):

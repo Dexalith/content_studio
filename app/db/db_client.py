@@ -2,10 +2,15 @@ import logging
 from typing import AsyncGenerator
 
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
+from sqlalchemy.orm import DeclarativeBase
 
 from app.core.config import postgres_config
 
 logger = logging.getLogger(__name__)
+
+
+class Base(DeclarativeBase):
+    pass
 
 class AsyncDb:
     def __init__(

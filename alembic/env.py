@@ -13,8 +13,6 @@ from alembic import context
 
 from app.core.config import postgres_config
 from app.users.models import Base
-from app.projects.models import Project
-from app.documents.models import Document
 
 
 config = context.config
