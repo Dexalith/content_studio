@@ -65,3 +65,5 @@ async def login_user(
     )
 
     return Token(access_token=access_token)
+
+

@@ -12,7 +12,7 @@ security = HTTPBearer()
 
 async def get_current_user(
         credentials=Depends(security),
-        session: AsyncSession = Depends(async_db)
+        session: AsyncSession = Depends(async_db.get_session)
 ) -> User:
     token = credentials.credentials
 
