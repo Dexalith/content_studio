@@ -1,10 +1,11 @@
 from sqlalchemy import ForeignKey, DateTime, Text, String, Enum as SQLEnum
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy import func
 
 from app.doc_proj.enum import DocumentStatus, DocumentType
 from app.db.db_client import Base
 
-from datetime import datetime
+from datetime import datetime, timezone
 from uuid import UUID, uuid4
 
 
@@ -15,9 +16,11 @@ class Project(Base):
     name: Mapped[str] = mapped_column(String(100), nullable=False)
     description: Mapped[str] = mapped_column(Text, nullable=True)
     owner_id: Mapped[UUID] = mapped_column(ForeignKey("users.id", ondelete="CASCADE",), nullable=False)
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
-    updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    updated_at: Mapped[datetime] = mapped_column(DateTime(
+        timezone=True),default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc)
+    )
     owner: Mapped["User"] = relationship("User", back_populates="projects")
     documents: Mapped[list["Document"]] = relationship("Document", back_populates="project")
 
@@ -38,9 +41,14 @@ class Document(Base):
     owner_id: Mapped[UUID] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
     project_id: Mapped[UUID] = mapped_column(ForeignKey("projects.id", ondelete="CASCADE",), nullable=True)
 
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
-    updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    updated_at: Mapped[datetime] = mapped_column(DateTime(
+        timezone=True),default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc)
+    )
 
     # Relationships
     owner: Mapped["User"] = relationship("User", back_populates="documents")
     project: Mapped["Project"] = relationship("Project", back_populates="documents")
+
+

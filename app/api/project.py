@@ -5,8 +5,8 @@ from sqlalchemy import select
 from typing import List
 
 from app.db.db_client import async_db
-from app.doc_proj.schemas import ProjectOut, ProjectCreate, ProjectUpdate
 from app.core.depencies import get_current_user
+from app.doc_proj.schemas import ProjectOut, ProjectCreate, ProjectUpdate
 from app.users.models import User
 from app.doc_proj.models import Project, Document
 
