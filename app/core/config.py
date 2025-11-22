@@ -18,10 +18,10 @@ class AppConfig(BaseSettings):
 
 class Config(BaseSettings):
     db_name: str = "ai_content"
-    db_host: str = "youhost"
+    db_host: str = "localhost"
     db_port: str = "5432"
-    db_username: str = "username"
-    db_password: str = "password"
+    db_username: str = "hasanmalbahov"
+    db_password: str = "postgres"
     db_logs: bool = False
     sqlalchemy_pool_size: int = 5
     sqlalchemy_pool_max_overflow: int = 10
@@ -34,6 +34,18 @@ class Config(BaseSettings):
     @property
     def db_url(self):
         return f"postgresql+asyncpg://{self.db_username}:{self.db_password}@{self.db_host}:{self.db_port}/{self.db_name}"
+
+
+class AIConfig(BaseSettings):
+    openai_api_key: str
+    openai_model: str = "gpt-3.5-turbo"
+    openai_max_tokens: int = 1000
+    openai_temperature: float = 0.7
+
+    model_config = SettingsConfigDict(
+        env_file=f"{BASE_DIR}/.env",
+        extra="allow"
+    )
 
 
 class Setting(BaseSettings):
@@ -49,3 +61,4 @@ class Setting(BaseSettings):
 settings = Setting() #  type: ignore
 postgres_config = Config() # type: ignore
 app_config = AppConfig()  # type: ignore
+ai_config = AIConfig()  # type: ignore
